@@ -15,11 +15,11 @@ int main()
 
     if (numero < 0)
     {
-        puts("Numero invalido\n");
+        puts("Numero invalido");
     }
     else if (numero == 0)
     {
-        puts("Nao tem\n");
+        puts("Nao tem");
     }
     else
     {
