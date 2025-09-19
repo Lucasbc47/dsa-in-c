@@ -1,31 +1,31 @@
-#include "pilha.h"
+#include "t_char_pilha.h"
 
-t_pilha inicializa_pilha(int capacidade)
+t_char_pilha inicializa_pilha(int capacidade)
 {
-    t_pilha pilha;
+    t_char_pilha pilha;
     pilha.capacidade = capacidade;
     pilha.topo = 0;
-    pilha.v = malloc(capacidade * sizeof(int));
+    pilha.v = malloc(capacidade);
     return pilha;
 }
 
-int esta_vazia(t_pilha *pilha)
+int esta_vazia(t_char_pilha *pilha)
 {
     return pilha->topo == 0;
 }
 
-int esta_cheia(t_pilha *pilha)
+int esta_cheia(t_char_pilha *pilha)
 {
     return pilha->topo == pilha->capacidade;
 }
 
-void popula_pilha(t_pilha *pilha)
+void popula_pilha(t_char_pilha *pilha)
 {
     for (int i = 0; i < pilha->capacidade; i++)
         pilha->v[pilha->topo++] = i + 1;
 }
 
-void mostra_pilha(t_pilha *pilha)
+void mostra_pilha(t_char_pilha *pilha)
 {
     printf("[ ");
     for (int i = 0; i < pilha->topo; i++)
@@ -37,7 +37,7 @@ void mostra_pilha(t_pilha *pilha)
     puts("]");
 }
 
-int push(t_pilha *pilha, int elemento)
+int push(t_char_pilha *pilha, char elemento)
 {
     if (esta_cheia(pilha))
     {
@@ -50,7 +50,7 @@ int push(t_pilha *pilha, int elemento)
     return SUCESSO;
 }
 
-int pop(t_pilha *pilha, int *removido)
+int pop(t_char_pilha *pilha, char *removido)
 {
     if (esta_vazia(pilha))
     {
@@ -61,15 +61,20 @@ int pop(t_pilha *pilha, int *removido)
     return SUCESSO;
 }
 
-void exibe_post_elem_top(t_pilha *p){
-    printf("topo: %d - elemento: %d", p->topo-1, p->v[p->topo-1]);
-}
-
-void converte_binaria(int n, t_pilha *p){
-    t_pilha p;
-    while (n > 0) {
-        push(p, n%2);
-        n = n / 2;
-        // ....
+char *string_pilha(t_char_pilha *p){
+    char *s = (char *) malloc(1000);
+    char s_aux[32];
+    s[0] = '\0'; 
+    if (esta_vazia(p)){
+        sprintf(s, "pilha vazia\n");
     }
+    else {
+        for (int i=p->topo-1; i>=0; i--){
+            sprintf(s_aux, "%c\n", p->v[i]);
+            strcat(s, s_aux);
+        }
+        strcat(s, "==========\n");
+    }
+    return s;
+
 }

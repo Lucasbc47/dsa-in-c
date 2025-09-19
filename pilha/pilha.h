@@ -24,3 +24,6 @@ void mostra_pilha(t_pilha *);
 
 int push(t_pilha *, int);
 int pop(t_pilha *, int *);
+
+void converte_binaria(int, t_pilha *);
+void exibe_post_elem_top(t_pilha *); 
