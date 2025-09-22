@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SUCESSO 0
 #define FALHA 1
@@ -26,4 +27,16 @@ int push(t_pilha *, int);
 int pop(t_pilha *, int *);
 
 void converte_binaria(int, t_pilha *);
-void exibe_post_elem_top(t_pilha *); 
+void exibe_post_elem_top(t_pilha *);
+void print_pilha(t_pilha *);
+char *string_pilha(t_pilha *p);
+void destroi_pilha(t_pilha *pilha)
+{
+    if (pilha->v != NULL)
+    {
+        free(pilha->v);
+        pilha->v = NULL;
+    }
+    pilha->capacidade = 0;
+    pilha->topo = 0;
+}

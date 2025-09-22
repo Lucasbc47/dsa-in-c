@@ -1,26 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
+typedef struct DynamicArray
 {
-    int capacidade;
-    int ocupacao;
-    int *v;
-} t_vetor;
+    int capacity; // numero de elementos
+    int size;     // estado atual;
+    int *data;    // pointer to the array;
+} DynamicArray;
 
-void inicializa_vetor(t_vetor *, int);
+DynamicArray *init_array(int);
+void destroy_array(DynamicArray *);
 
-int insere_valor(int, t_vetor *);
-int remove_valor(int *, t_vetor *);
+int insert_element(int, DynamicArray *);
+int remove_element(int *, DynamicArray *);
 
-int esta_cheio(t_vetor *);
-int esta_vazio(t_vetor *);
+int is_full(DynamicArray *);
+int is_empty(DynamicArray *);
 
-void mostra_vetor(t_vetor *);
-void preenche_vetor(t_vetor *);
-void libera_memoria(t_vetor *);
+int resize_arr(DynamicArray *);
+
+void mostra_vetor(DynamicArray *);
+void preenche_vetor(DynamicArray *);
+void libera_memoria(DynamicArray *);
 
 // sorting
-void bubble_sort(t_vetor *);
-void selection_sort(t_vetor *);
-void insertion_sort(t_vetor *);
+void bubble_sort(DynamicArray *);
+void selection_sort(DynamicArray *);
+void insertion_sort(DynamicArray *);

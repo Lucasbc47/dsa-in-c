@@ -1,4 +1,5 @@
- #include "pilha.h"
+#include "pilha.h"
+#include <stdbool.h>
 
 int main()
 {
@@ -22,7 +23,8 @@ int main()
     push(&stack, adicionar);
     printf("-- Adicionado: %d\n", adicionar);
     mostra_pilha(&stack);
-
+    printf("%s", string_pilha(&stack));
+    print_pilha(&stack);
     // printf("%p\n", &stack);
     free(stack.v);
     return 0;
