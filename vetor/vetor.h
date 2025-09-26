@@ -24,6 +24,6 @@ void preenche_vetor(DynamicArray *);
 void libera_memoria(DynamicArray *);
 
 // sorting
-void bubble_sort(DynamicArray *);
+void bubble_sort(int *, int);
 void selection_sort(DynamicArray *);
 void insertion_sort(DynamicArray *);

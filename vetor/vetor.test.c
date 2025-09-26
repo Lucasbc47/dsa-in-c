@@ -10,7 +10,42 @@ void imprime_array(DynamicArray *arr)
         if (i < arr->size - 1)
             printf(", ");
     }
-    printf("]>\n"); 
+    printf("]>\n");
+}
+
+void bubble_sort(int *arr, int size)
+{
+    // arr {3, 4, 6, 10, 2, 1}
+    for (int i = 0; i < size - 1; i++)
+    {
+        // i > i+1
+        for (int j = 0; j < size - 1 - i; j++)
+        {
+            if (arr[j] > arr[j + 1])
+            {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void insertion_sort(int *arr, int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        int min_index = i;
+        for (int j = i + 1; j < size; j++)
+        {
+            if (arr[j] > arr[j + 1])
+            {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
 }
 
 int main()
@@ -77,16 +112,20 @@ int main()
            remove_element(&removido, arr) ? "sucesso" : "falhou");
     printf("\n");
 
-    // Teste 6: Reencher e mostrar estado final
-    printf("6. Reenchendo array:\n");
-    insert_element(100, arr);
-    insert_element(200, arr);
-    insert_element(300, arr);
-    printf("   Estado final: ");
+    printf("6. Testando bubble sort:\n");
+    insert_element(50, arr);
+    insert_element(10, arr);
+    insert_element(30, arr);
+    insert_element(20, arr);
+    insert_element(40, arr);
+
+    printf("   Antes da ordenacao: ");
     imprime_array(arr);
 
-    destroy_array(arr);
-    printf("\n=== Testes Completos ===\n");
+    bubble_sort(arr->data, arr->size);
+
+    printf("   Apos ordenacao: ");
+    imprime_array(arr);
 
     return 0;
 }
