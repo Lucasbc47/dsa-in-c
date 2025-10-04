@@ -40,3 +40,14 @@ void destroi_pilha(t_pilha *pilha)
     pilha->capacidade = 0;
     pilha->topo = 0;
 }
+
+int topo(t_pilha *pilha, int *valor, int *p)
+{
+    if (!esta_vazia(pilha))
+    {
+        //*valor = pilha->v[topo];        
+        *valor = pilha->v[pilha->topo - 1];
+        return 0;
+    }
+    return -1;
+}
