@@ -7,7 +7,7 @@
 
 ## Execução
 
-Compilar e rodar qualquer um dos programas. O `main.c` salva em CSV, o `main_simples.c` mostra no console.
+Compilar e rodar qualquer um dos programas. O `main.c` salva em CSV e mostra no console, o `main_simples.c` mostra no console.
 
 ## Resultados
 
