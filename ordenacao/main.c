@@ -1,4 +1,5 @@
 // exclui importações inuteis. importamos somente o que utilizamos da API.
+// exclui importações inuteis. importamos somente o que utilizamos da API.
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -13,7 +14,7 @@ void bubble_sort(int v[], int n);
 void insertion_sort(int v[], int n);
 void quick_sort(int v[], int inicio, int fim);
 
-void salvar(const char *algoritmo, int n, double tempo_medio_ms);
+void salvar(int tamanhos[], double bubble[], double insertion[], double selection[], double quick[], int num_tamanhos);
 
 #define REPETICOES 10
 /*
@@ -34,6 +35,11 @@ int main()
 {
     int tamanhos[] = {2000, 4000, 8000, 12000, 16000};
     int num_tamanhos = 5;
+    
+    double tempos_bubble[5];
+    double tempos_insertion[5];
+    double tempos_selection[5];
+    double tempos_quick[5];
 
     LARGE_INTEGER freq, inicio, fim;
     QueryPerformanceFrequency(&freq);
@@ -69,9 +75,8 @@ int main()
             QueryPerformanceCounter(&fim);
             tempo_total_bubble += (fim.QuadPart - inicio.QuadPart) * 1000.0 / freq.QuadPart;
         }
-        double tempo_medio_bubble = tempo_total_bubble / REPETICOES;
-        printf("Media do (Bubble): %.3f ms\n", tempo_medio_bubble);
-        salvar("Bubble", tam, tempo_medio_bubble);
+        tempos_bubble[t] = tempo_total_bubble / REPETICOES;
+        printf("Media do (Bubble): %.3f ms\n", tempos_bubble[t]);
 
         // insertion sort
         double tempo_total_insertion = 0.0;
@@ -83,9 +88,8 @@ int main()
             QueryPerformanceCounter(&fim);
             tempo_total_insertion += (fim.QuadPart - inicio.QuadPart) * 1000.0 / freq.QuadPart;
         }
-        double tempo_medio_insertion = tempo_total_insertion / REPETICOES;
-        printf("Media do (Insertion): %.3f ms\n", tempo_medio_insertion);
-        salvar("Insertion", tam, tempo_medio_insertion);
+        tempos_insertion[t] = tempo_total_insertion / REPETICOES;
+        printf("Media do (Insertion): %.3f ms\n", tempos_insertion[t]);
 
         // selection sort
         double tempo_total_selection = 0.0;
@@ -97,9 +101,8 @@ int main()
             QueryPerformanceCounter(&fim);
             tempo_total_selection += (fim.QuadPart - inicio.QuadPart) * 1000.0 / freq.QuadPart;
         }
-        double tempo_medio_selection = tempo_total_selection / REPETICOES;
-        printf("Media do (Selection): %.3f ms\n", tempo_medio_selection);
-        salvar("Selection", tam, tempo_medio_selection);
+        tempos_selection[t] = tempo_total_selection / REPETICOES;
+        printf("Media do (Selection): %.3f ms\n", tempos_selection[t]);
 
         // quick sort
         double tempo_total_quick = 0.0;
@@ -111,15 +114,42 @@ int main()
             QueryPerformanceCounter(&fim);
             tempo_total_quick += (fim.QuadPart - inicio.QuadPart) * 1000.0 / freq.QuadPart;
         }
-        double tempo_medio_quick = tempo_total_quick / REPETICOES;
-        printf("Media do (Quick): %.3f ms\n", tempo_medio_quick);
-        salvar("Quick", tam, tempo_medio_quick);
+        tempos_quick[t] = tempo_total_quick / REPETICOES;
+        printf("Media do (Quick): %.3f ms\n", tempos_quick[t]);
+        
         printf("\n");
         free(vetor);
     }
+    
+    salvar(tamanhos, tempos_bubble, tempos_insertion, tempos_selection, tempos_quick, num_tamanhos);
     puts(">> Fim dos testes. Confira resultados em 'resultados.csv'");
     system("pause");
     return 0;
+}
+
+void salvar(int tamanhos[], double bubble[], double insertion[], double selection[], double quick[], int num_tamanhos)
+{
+    FILE *arq = fopen("resultados.csv", "w");
+    // w -> write
+    if (arq == NULL)
+    {
+        printf("[ERRO]: Nao foi possivel criar o arquivo CSV!");
+        return;
+    }
+    
+    // cabecalhos
+    fprintf(arq, "n;Bubble;Insertion;Selection;Quick\n");
+    for (int i = 0; i < num_tamanhos; i++)
+    {
+        fprintf(arq, "%d;%.3f;%.3f;%.3f;%.3f\n",
+                tamanhos[i],
+                bubble[i],
+                insertion[i],
+                selection[i],
+                quick[i]);
+    }
+    
+    fclose(arq);
 }
 
 void selection_sort(int v[], int n)
@@ -140,6 +170,7 @@ void selection_sort(int v[], int n)
         }
     }
 }
+
 void bubble_sort(int v[], int n)
 {
     // obs: o bubble sort parecia mais com variação de selection sort, portanto foi alterado
@@ -156,6 +187,7 @@ void bubble_sort(int v[], int n)
         }
     }
 }
+
 void insertion_sort(int v[], int n)
 {
     for (int j = 1; j < n; ++j)
@@ -169,6 +201,7 @@ void insertion_sort(int v[], int n)
         v[i + 1] = x;
     }
 }
+
 void quick_sort(int v[], int inicio, int fim)
 {
     if (inicio < fim)
@@ -196,22 +229,4 @@ void quick_sort(int v[], int inicio, int fim)
         quick_sort(v, inicio, part - 1);
         quick_sort(v, part + 1, fim);
     }
-}
-void salvar(const char *alg, int n, double tempo_ms)
-{
-    // 'a': append e 'r': read
-    FILE *arq = fopen("resultados.csv", "r");
-    int header = (arq == NULL);
-    if (arq != NULL)
-        fclose(arq);
-    arq = fopen("resultados.csv", "a");
-    if (arq == NULL)
-    {
-        printf("[ERRO]: Nao foi possivel abrir o CSV!");
-        return;
-    }
-    if (header)
-        fprintf(arq, "algoritmo;n;tempo_medio_ms\n");
-    fprintf(arq, "%s;%d;%.3f\n", alg, n, tempo_ms);
-    fclose(arq);
 }
