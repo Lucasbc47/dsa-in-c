@@ -127,7 +127,8 @@ int main()
     return 0;
 }
 
-void salvar(int tamanhos[], double bubble[], double insertion[], double selection[], double quick[], int num_tamanhos)
+void salvar(int tamanhos[], double bubble[], double insertion[], 
+    double selection[], double quick[], int num_tamanhos)
 {
     FILE *arq = fopen("resultados.csv", "w");
     // w -> write
