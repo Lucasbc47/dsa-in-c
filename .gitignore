@@ -1,3 +1,6 @@
 *.exe
 *.bat
 .vscode
+*.class
+.claude/
+vai.txt
